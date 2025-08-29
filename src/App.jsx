@@ -4,6 +4,8 @@ import MonthView from './components/MonthView';
 import {useState} from 'react';
 import WeekView from './components/WeekView'; 
 import DayView from './components/DayView';
+import EventModal from './components/EventModal';
+import EventSidebar from './components/EventSidebar';
 
 const App = () => {
 
@@ -21,7 +23,8 @@ const App = () => {
   { id: 3, title: "Gym", date: "2025-08-26" }
 
 ];
-
+const defaultDate=currentDate.toISOString().split("T")[0];
+const title="this is event sidebar"
 
 
 
@@ -30,10 +33,18 @@ const App = () => {
 
   return (
    <>
+
    <CalenderHeader mode={mode} setMode={setMode} currentDate={currentDate} setCurrentDate={setCurrentDate} />
-   <MonthView currentDate={currentDate} events={events} onDayClick={handleDayClick} /> 
-   <WeekView currentDate={currentDate} events={events} onDayClick={handleDayClick}/>
-   <DayView currentDate={currentDate} events={events}/>            
+   {mode==="month" ? <MonthView currentDate={currentDate} events={events} onDayClick={handleDayClick}/>:
+   mode==="week"?<WeekView currentDate={currentDate} events={events} onDayClick={handleDayClick}/>:
+   mode==="day"?<DayView currentDate={currentDate} events={events}/>:(
+  <h2>some error</h2>
+)} 
+  
+         
+   {/* <EventModal defaultDate={defaultDate}/>    */}
+   {/* <EventSidebar events={events} title={title}/> */}
+     
    </>
   )
 }

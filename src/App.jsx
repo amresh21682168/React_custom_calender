@@ -38,7 +38,7 @@ const App = () => {
 
   const defaultDate = currentDate.toISOString().split("T")[0];
   return (
-    <>
+    <div >
       <div className="h-screen flex flex-col  ">
         <CalenderHeader
           mode={mode}
@@ -77,6 +77,7 @@ const App = () => {
           className="fixed bottom-6 right-20 bg-blue-600 text-white px-4 py-2 rounded-2xl shadow mb-2"
           onClick={() => setShowModal(true)}
         >
+          
           {" "}
           +Add Events{" "}
         </button>
@@ -88,7 +89,7 @@ const App = () => {
           onSave={addEvent}
         />
       </div>
-    </>
+    </div>
   );
 };
 

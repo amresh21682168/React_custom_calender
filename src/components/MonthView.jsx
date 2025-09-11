@@ -11,6 +11,7 @@ export default function MonthView({ currentDate, events, onDayClick }) {
     .fill(null)
     .map((_, i) => i + 1);
   const monthDays = [...blanks, ...monthArray];
+  const daysArray=["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
   // function getMonthDays(year,month){                        to know the number of days in a month
   //   return new Date(year,month+1,0).getDate();
@@ -18,7 +19,7 @@ export default function MonthView({ currentDate, events, onDayClick }) {
 
   return (
     <div className="grid grid-cols-7 gap-2 p-4">
-      {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d, index) => (
+      {daysArray.map((d, index) => (
         <div key={index} className="text-center font-semibold">
           {d}
         </div>

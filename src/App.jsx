@@ -1,12 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import CalenderHeader from "./components/CalendarHeader";
 import MonthView from "./components/MonthView";
-import { useState } from "react";
 import WeekView from "./components/WeekView";
 import DayView from "./components/DayView";
 import EventModal from "./components/EventModal";
 import EventSidebar from "./components/EventSidebar";
 import { formatDate, getWeekDates } from "./utils/dateUtils";
+import DeleteEventButton from "./components/DeleteEvent.jsx";
 
 const App = () => {
   const [mode, setMode] = useState("month");
@@ -28,6 +28,7 @@ const App = () => {
   const addEvent = (event) => {
     setEvents([...events, event]);
   };
+
   const monthEvents = events.filter(
     (e) => new Date(e.date).getMonth() === currentDate.getMonth()
   );
@@ -36,17 +37,26 @@ const App = () => {
     getWeekDates(currentDate).some((d) => formatDate(d) === e.date)
   );
 
-  const defaultDate = currentDate.toISOString().split("T")[0];
+  const defaultDate = formatDate(currentDate);
+  const deleteEvent = (id) => {
+  setEvents(events.filter((e) => e.id !== id));
+};
+
+
   return (
-    <div >
-      <div className="h-screen flex flex-col  ">
+    <div>
+      <div className="h-screen flex flex-col">
+  
         <CalenderHeader
           mode={mode}
           setMode={setMode}
           currentDate={currentDate}
           setCurrentDate={setCurrentDate}
         />
-        <div className="flex flex-1">
+
+     
+        <div className="flex flex-1 flex-col md:flex-row">
+         
           <div className="flex-1 overflow-y-auto">
             {mode === "month" && (
               <MonthView
@@ -66,25 +76,31 @@ const App = () => {
               <DayView currentDate={currentDate} events={events} />
             )}
           </div>
+
+      
           {mode !== "day" && (
-            <EventSidebar
-              events={mode === "month" ? monthEvents : weekEvents}
-              title={mode === "month" ? "Month Events" : "Week Events"}
-            />
+            <div className="md:w-1/3 w-full mt-4 md:mt-0">
+              <EventSidebar
+                events={mode === "month" ? monthEvents : weekEvents}
+                title={mode === "month" ? "Month Events" : "Week Events"}
+                onDeleteEvent={deleteEvent}
+              />
+            </div>
           )}
         </div>
+
+      
         <button
-          className="fixed bottom-6 right-20 bg-blue-600 text-white px-4 py-2 rounded-2xl shadow mb-2"
+          className="fixed bottom-6 right-6 md:right-20 bg-blue-600 text-white px-4 py-2 rounded-2xl shadow mb-2"
           onClick={() => setShowModal(true)}
         >
-          
-          {" "}
-          +Add Events{" "}
+          + Add Event
         </button>
-        
+
+      
         <EventModal
           isOpen={showModal}
-          defaultDate={formatDate(currentDate)}
+          defaultDate={defaultDate}
           onClose={() => setShowModal(false)}
           onSave={addEvent}
         />

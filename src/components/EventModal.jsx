@@ -1,67 +1,52 @@
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 
 const EventModal = ({ isOpen, onClose, onSave, defaultDate }) => {
-  const [title, setTitle] = useState("my name is amresh");
+  const [title, setTitle] = useState("");
   const [date, setDate] = useState(defaultDate);
   const [time, setTime] = useState("12:00");
 
-  // const handleSave = () => {
-  //   if (!title) return;
-  //   onSave({ id: Date.now(), title, date, time });
-  //   setTitle("");
-  //   onClose();
-  // };
-
   const handleSave = () => {
+    if (!title) return;
     onSave({ id: Date.now(), title, date, time });
     setTitle("");
     onClose();
   };
 
-  if (isOpen == false) {
-    return null;
-  }
+  if (!isOpen) return null;
 
   return (
-    <div className="flex fixed inset-0 items-center justify-center bg-black/40">
-      <div className="bg-gray-100 p-6 rounded shadow-lg w-100">
-        <h2>Add Event</h2>
+    <div className="fixed inset-0 flex items-center justify-center bg-black/40 p-2">
+      <div className="bg-white p-4 sm:p-6 rounded shadow-lg w-full max-w-md">
+        <h2 className="text-lg font-semibold mb-3">Add Event</h2>
         <input
-          onChange={(e) => {
-            setTitle(e.target.value);
-            console.log(e.target);
-            //  console.dir(e.target);
-
-            console.log(e.target.value);
-          }}
+          onChange={(e) => setTitle(e.target.value)}
           type="text"
+          value={title}
           placeholder="Event Title"
-          // value={title}
-          className="border shadow p-2 mb-2 w-full"
+          className="border shadow p-2 mb-2 w-full text-sm"
         />
         <input
           onChange={(e) => setDate(e.target.value)}
           type="date"
           value={date}
-          className="border w-full p-2 mb-2 "
+          className="border w-full p-2 mb-2 text-sm"
         />
         <input
           type="time"
           value={time}
           onChange={(e) => setTime(e.target.value)}
-          className="border w-full p-2 mb-2 "
+          className="border w-full p-2 mb-2 text-sm"
         />
-        <div className="flex justify-end gap-2 p-2">
+        <div className="flex justify-end gap-2 mt-3">
           <button
             onClick={onClose}
-            className="border px-3 py-1 rounded bg-gray-300"
+            className="border px-3 py-1 rounded bg-gray-200 text-sm"
           >
             Cancel
           </button>
           <button
             onClick={handleSave}
-            className="border px-3 py-1 rounded bg-blue-500 text-white"
+            className="border px-3 py-1 rounded bg-blue-600 text-white text-sm"
           >
             Save
           </button>
